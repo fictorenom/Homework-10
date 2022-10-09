@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "height": 500,
+  "width": 500,
+  "title": "US States Gun Deaths Per Year (2018-2022)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/fictorenom/Homework-10/main/Sum%20Of%20Deaths%20Per%20State.csv"
+  },
+
+  "params":[
+    {
+    "name": "state_highlight",
+    "bind": {
+        "input":"select",
+        "options":[null,"Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"],
+        "labels": ["Show All","Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"],
+        "name":"State Selection: "
+        }
+    }
+  ],
+  "transform": [{"filter": "state_highlight == null || datum.State == state_highlight"}],
+  "encoding": {
+    "x": {
+     "timeUnit":"year",
+      "field": "Year",
+      "type": "temporal",
+      "axis":{"tickCount":6},
+      "title":"Year"
+    },
+    "y": {
+      "field": "Deaths",
+      "type": "quantitative"
+    }},
+    "layer":[{
+      "mark": "line",
+      "encoding": {
+        "color": {"field":"State","type":"nominal"},
+        "opacity": {"value": 0.6},
+        "tooltip": [
+          {"field": "State", "type": "nominal"},
+          {"field": "Deaths", "type": "quantitative", "format": ","}
+      ]
+      }
+    },
+    {
+      "mark":{
+        "type": "text",
+        "align":"right",
+        "baseline": "middle",
+        "dx": -12,
+        "fontSize": 11.5,
+        "fontStyle": "italic"
+    },
+      "encoding":{
+        "text":{"field":"State","type":"nominal"},
+        "color":{"value":"black"},
+        "opacity":{
+          "condition":{
+            "test": "datum['State'] == 'Texas'",
+            "value":1
+          },
+          "value":0
+        },
+        "tooltip": [
+          {"field": "State", "type": "nominal"},
+          {"field": "Deaths", "type": "quantitative", "format": ","}
+        ]
+      }
+    }
+    ]   
+}
+
